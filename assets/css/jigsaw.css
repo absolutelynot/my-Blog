@@ -1,0 +1,139 @@
+body{
+    font-family: cursive;
+    font-size: 16pt;
+    text-align: center;
+}
+
+#puzzlearea{
+    width: 400px;
+    height: 400px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.each_puzzle{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    display: inline-block;
+
+    color: black;
+    line-height: 90px;
+    font-size: 40pt;
+    border: 5px black solid;
+    background-image: url(../images/jigsaw.jpg);
+    overflow: hidden;
+}
+
+#shufflebutton{
+    font-size: 20px;
+}
+
+.each_puzzle:hover{
+    cursor: default;
+    color:black;
+}
+
+
+.can_move:hover{
+    cursor: pointer;
+    border: 5px red solid;
+    color:red;
+}
+
+
+/* row为行号，col为列号 */
+.row_1{
+    top: 0px;
+}
+.row_2{
+    top: 100px;
+}
+.row_3{
+    top: 200px;
+}
+.row_4{
+    top: 300px;
+}
+
+.col_1{
+    left: 0px;
+}
+.col_2{
+    left: 100px;
+}
+.col_3{
+    left: 200px;
+}
+.col_4{
+    left: 300px;
+}
+
+/* id _img_row_col 代表每一个分块 */
+#_img_1_1 {
+    background-position: 0px 0px;
+}
+
+#_img_1_2 {
+    background-position: -100px 0px;
+}
+
+#_img_1_3 {
+    background-position: -200px 0px;
+}
+
+#_img_1_4 {
+    background-position: -300px 0px;
+}
+
+#_img_2_1 {
+    background-position: 0px -100px;
+}
+
+#_img_2_2 {
+    background-position: -100px -100px;
+}
+
+#_img_2_3 {
+    background-position: -200px -100px;
+}
+
+#_img_2_4 {
+    background-position: -300px -100px;  
+}
+
+#_img_3_1 {
+    background-position: 0px -200px;
+}
+
+#_img_3_2 {
+    background-position: -100px -200px;
+}
+
+#_img_3_3 {
+    background-position: -200px -200px; 
+}
+
+#_img_3_4 {
+    background-position: -300px -200px;
+}
+
+#_img_4_1 {
+    background-position: 0px -300px;
+}
+
+#_img_4_2 {
+    background-position: -100px -300px;
+}
+
+#_img_4_3 {
+    background-position: -200px -300px; 
+}
+
+#_img_4_4 {
+    opacity: 0;
+    background-position: -300px -300px;
+    background-image: none;
+    border:none;
+}

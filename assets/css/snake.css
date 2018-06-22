@@ -1,0 +1,36 @@
+
+h1{
+	text-align: center;
+	margin-left: -100px;
+}
+.mb-10{
+	margin-bottom: 10px;
+}
+.font-18{
+	font-size: 18px;
+}
+
+.game-wrap{
+	width: 70%;
+	padding-top: 20px;
+	margin: 0 auto;
+}
+.snake-box{
+	float: left;
+	width: 80%;
+	height: 500px;
+	background-color: #666;
+
+	border: solid #d82626 5px;
+}
+.right-operate{
+	float: left;
+	width: 20%;
+	padding: 20px;
+	background-color: #ccc;
+}
+.right-operate .btn{
+	display: block;
+	width: 100%;
+	text-align: center; 
+}

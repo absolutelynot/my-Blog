@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="description" content="A Calendar To-Do">
+		<title>My Blog</title>
+
+		<link rel="stylesheet" type="text/css" href="assets/css/index.css" media="all" />
+		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,500,600" rel="stylesheet">
+		<!-- <link rel="stylesheet" href="css/main.css"> -->
+		<link rel="stylesheet" href="assets/css/calender.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+
+	<body class="home blog custom-background round-avatars">
+		<div class="Yarn_Background" style="background-image: url( assets/images/head.jpg);"></div>
+		<div class="navi" data-aos="fade-down">
+			<div class="bt-nav">
+				<div class="line line1"></div>
+				<div class="line line2"></div>
+				<div class="line line3"></div>
+			</div>
+			<div class="navbar animated fadeInRight">
+				<div class="inner">
+					<nav id="site-navigation" class="main-navigation">
+						<div id="main-menu" class="main-menu-container">
+							<div class="menu-menu-container">
+								<ul id="primary-menu" class="menu">
+									<li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17">
+										<a href="index.html">首页</a>
+									</li>
+									<li id="menu-item-78" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-78">
+										<a href="link.html">链接</a>
+									</li>
+									<li id="menu-item-252" class="menu-item menu-item-type-post_type menu-item-object-page  current-menu-item current_page_item menu-item-home menu-item-252">
+										<a href="calender.html">日程</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+					<!-- #site-navigation -->
+				</div>
+			</div>
+		</div>
+		<header id="masthead" class="overlay animated from-bottom" itemprop="brand">
+			<div class="site-branding text-center">
+				<a href="">
+					<figure>
+						<img class="custom-logo avatar" src="assets/images/omikron.png" />
+					</figure>
+				</a>
+				<h3 class="blog-description"><p>This is beauty</p></h3>
+			</div>
+			<!-- .site-branding -->
+			<div class="decor-part">
+				<div id="particles-js"></div>
+			</div>
+			<div class="animation-header">
+				<div class="decor-wrapper">
+					<svg id="header-decor" class="decor bottom" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100" preserveAspectRatio="none">
+						<path class="large left" d="M0 0 L50 50 L0 100" fill="rgba(255,255,255, .1)"></path>
+						<path class="large right" d="M100 0 L50 50 L100 100" fill="rgba(255,255,255, .1)"></path>
+						<path class="medium left" d="M0 100 L50 50 L0 33.3" fill="rgba(255,255,255, .3)"></path>
+						<path class="medium right" d="M100 100 L50 50 L100 33.3" fill="rgba(255,255,255, .3)"></path>
+						<path class="small left" d="M0 100 L50 50 L0 66.6" fill="rgba(255,255,255, .5)"></path>
+						<path class="small right" d="M100 100 L50 50 L100 66.6" fill="rgba(255,255,255, .5)"></path>
+						<path d="M0 99.9 L50 49.9 L100 99.9 L0 99.9" fill="rgba(255,255,255, 1)"></path>
+						<path d="M48 52 L50 49 L52 52 L48 52" fill="rgba(255,255,255, 1)"></path>
+					</svg>
+				</div>
+			</div>
+		</header>
+		<div id="main" class="content">
+			<div class="container">
+				<!-- <section class="post_content" itemscope itemtype="http://schema.org/Article"> -->
+					<!-- Vue App -->
+					<div id="app" class="app">
+						<template v-if="loaded">
+							<div class="wrap" v-cloak>
+								<div class="sidebar-clear" :class="{'sidebar-clear-open': sidebar || newTask}" @click="closeSidebar"></div>
+								<!-- Window -->
+								<div class="window">
+									<div class="row">
+										<div :class="{'calendar-split': isState('split'), 'calendar-full': isState('full')}">
+											<div class="calendar-head">
+												{{ monthNames[activeMonth] }} {{ activeYear }}
+												<button class="arrow-button" @click="prevYear()">
+													<i class="fa fa-angle-double-left" aria-hidden="true"></i>
+												</button>
+												<button class="arrow-button" @click="prevMonth()">
+													<i class="fa fa-angle-left" aria-hidden="true"></i>
+												</button>
+												<button class="arrow-button" @click="nextMonth()">
+													<i class="fa fa-angle-right" aria-hidden="true"></i>
+												</button>
+												<button class="arrow-button" @click="nextYear()">
+													<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+												</button>
+											</div>
+											<!-- Calendar Table -->
+											<div class="calendar-table-wrap">
+
+												<table class="calendar-table">
+													<thead>
+														<tr class="calendar-weekdays">
+															<td v-for="weekday in weekdayNames">{{ weekday }}</td>
+														</tr>
+													</thead>
+
+													<tbody>
+														<tr v-for="week in getWeeks">
+															<!-- Single Day -->
+															<td v-for="day in week" :class="{today: isToday(day.day), selected: isSelected(day.day)}" @click="selectDay(day.day)">
+																{{ day.day }}
+																<template v-if="day.day">
+																	<button class="day-button" @click="taskOpen = true" v-if="isState('full')"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
+																	<ul :class="{'calendar-dots': isState('split'), 'calendar-list': isState('full')}" v-if="day.todos.length > 0 && day.day">
+																		<div style="min-width: 7rem">
+																			<li v-for="task in day.todos" :class="{'task-checked': task.checked === '1'}">
+																				<template v-if="isState('full')">
+																					{{ task.text }}
+																				</template>
+																			</li>
+																		</div>
+																	</ul>
+
+																</template>
+															</td>
+
+														</tr>
+													</tbody>
+												</table>
+
+											</div>
+										</div>
+										<!-- Modals -->
+										<div class="modal-overlay" :class="{'modal-overlay-open': (taskOpen && isState('full')) || newTask}" @click="closeModal"></div>
+										<div class="new-task" v-if="newTask">
+											<button class="close-button" @click="closeModal"><i class="fa fa-times" aria-hidden="true"></i></button>
+											<label for="">New Task</label>
+											<input type="text" placeholder="Add a new task" v-model="enteredTask" @keyup.enter="addTask">
+											<label for="">Date</label>
+											<input type="date" v-model="enteredDate">
+											<button class="submit-button" @click="addTask">Add task</button>
+										</div>
+										<!-- To Do List -->
+										<div :class="{todo: isState('split'), 'todo-modal': isState('full')}" v-if="taskOpen || isState('split')">
+											<button class="close-button" @click="closeModal" v-if="isState('full')"><i class="fa fa-times" aria-hidden="true"></i></button>
+											<div class="todo-date">{{ formatDate(selected) }}</div>
+											<label for=""></label>
+											<input type="text" placeholder="Add a new task" v-if="!isPast(selected)" v-model="enteredTask" @keyup.enter="addTask">
+											<button class="submit-button" @click="addTask" v-if="!isPast(selected)">Add task</button>
+											<template v-if="currentList.length !== 0">
+												<ul>
+													<li v-for="task in currentList">
+														<input type="checkbox" v-model="task.checked" true-value="1" false-value="0">
+														<span :class="{checked: task.checked === '1'}">{{ task.text }}</span>
+														<div class="task-buttons">
+															<button class="delete-button" @click="removeTask(task)"><i class="fa fa-times" aria-hidden="true"></i></button>
+														</div>
+														
+													</li>
+												</ul>
+											</template>
+											<template v-else>
+												<p>You have no tasks</p>
+											</template>
+										</div>
+									</div>
+								</div>
+								<!-- Sidebar -->
+								<div class="sidebar" :class="{'sidebar-open' : sidebar}">
+									<ul>
+										<li>
+											<button class="sidebar-button" @click="addNewTask">New Task <i class="fa fa-plus" aria-hidden="true"></i></button>
+										</li>
+										<li>
+											<button class="sidebar-button" @click="toggleState">
+												<template v-if="isState('split')">
+													Full View <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+												</template>
+												<template v-else>
+													Split View <i class="fa fa-columns" aria-hidden="true"></i>
+												</template>
+											</button>
+										</li>
+										<li>
+											<button class="sidebar-button" @click="saveListDB" v-if="database">
+												Save to server <i class="fa fa-floppy-o" aria-hidden="true"></i>
+											</button>
+										</li>
+										
+									</ul>
+								</div>
+							</div>
+						</template>
+						<template v-else>
+							<div class="loader"></div>
+						</template>
+
+					</div>
+				<!-- </section> -->
+			</div>
+		</div>
+
+		<footer id="footer" class="overlay animated from-top">
+				<div class="decor-wrapper">
+					<svg id="footer-decor" class="decor top" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100" preserveAspectRatio="none">
+						<path class="large left" d="M0 0 L50 50 L0 100" fill="rgba(255,255,255, .1)"></path>
+						<path class="large right" d="M100 0 L50 50 L100 100" fill="rgba(255,255,255, .1)"></path>
+						<path class="medium left" d="M0 0 L50 50 L0 66.6" fill="rgba(255,255,255, .3)"></path>
+						<path class="medium right" d="M100 0 L50 50 L100 66.6" fill="rgba(255,255,255, .3)"></path>
+						<path class="small left" d="M0 0 L50 50 L0 33.3" fill="rgba(255,255,255, .5)"></path>
+						<path class="small right" d="M100 0 L50 50 L100 33.3" fill="rgba(255,255,255, .5)"></path>
+						<path d="M0 0 L50 50 L100 0 L0 0" fill="rgba(255,255,255, 1)"></path>
+						<path d="M48 48 L50 51 L52 48 L48 48" fill="rgba(255,255,255, 1)"></path>
+					</svg>
+				</div>
+				<script type='text/javascript' src='assets/js/jquery.min.js'></script>
+				<script type='text/javascript' src='assets/js/plugins.js'></script>
+				<script type='text/javascript' src='assets/js/script.js'></script>
+				<script type='text/javascript' src='assets/js/particles.js'></script>
+				<script type='text/javascript' src='assets/js/aos.js'></script>
+		</footer>
+
+		<script src="assets/js/vue.min.js"></script>
+		<script src="assets/js/calender.js"></script>
+	</body>
+</html>
